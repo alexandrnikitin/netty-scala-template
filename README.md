@@ -1,0 +1,1 @@
+# netty-scala-template
