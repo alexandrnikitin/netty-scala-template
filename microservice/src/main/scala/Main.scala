@@ -1,3 +1,3 @@
 object Main extends App {
-  new Server().run()
+  new Server(new MicroserviceContext).run()
 }

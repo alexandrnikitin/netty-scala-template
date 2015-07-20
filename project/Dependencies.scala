@@ -11,7 +11,7 @@ object Dependencies {
 
   private val config = "com.typesafe" % "config" % "1.3.0"
 
-  val microservice = dependencies(Netty.all, Netty.epoll)
+  val microservice = dependencies(Netty.all, Netty.epoll, config)
 
   private def dependencies(modules: ModuleID*): Seq[Setting[_]] = Seq(libraryDependencies ++= modules)
 }
