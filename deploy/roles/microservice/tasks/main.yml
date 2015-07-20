@@ -1,0 +1,29 @@
+# This Playbook would deploy the new version of Microservice
+
+- name: "Setup firewalld"
+  firewalld: port=8080/tcp permanent=true state=enabled
+  notify: reload firewalld
+
+- name: "Stop old version"
+  service: name=microservice state=stopped
+
+- name: "Copy new version of service"
+  template: src=microservice.service.j2 dest=/usr/lib/systemd/system/microservice.service
+  notify:
+    - reload systemd
+    - enable microservice service
+
+- name: "Copy new version of microservice"
+  unarchive: src=microservice.zip dest=/opt/
+
+- name: "Create symlink to microservice executable"
+  file: src=/opt/microservice/bin/microservice dest=/usr/bin/microservice state=link
+
+- name: "Start new version"
+  service: name=microservice state=started
+
+# Pause for 5 seconds to launch the API.
+- pause: seconds=5
+
+- name: "Healthcheck the new version"
+  action: uri url=http://{{ inventory_hostname }}:8080/healthcheck

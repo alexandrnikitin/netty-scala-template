@@ -1,0 +1,8 @@
+- name: reload firewalld
+  service: name=firewalld state=reloaded
+
+- name: reload systemd
+  command: /usr/bin/systemctl daemon-reload
+
+- name: enable microservice service
+  service: name=microservice enabled=yes

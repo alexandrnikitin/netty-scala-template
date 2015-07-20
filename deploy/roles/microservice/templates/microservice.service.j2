@@ -1,0 +1,9 @@
+[Unit]
+Description=Microservice service
+
+[Service]
+Restart=always
+ExecStart=/bin/bash -c "export ENV={{ env }} && /usr/bin/microservice"
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,29 @@
+---
+# This role contains common plays that will run on all nodes.
+
+- name: Install python bindings for SE Linux
+  yum: name={{ item }} state=present
+  with_items:
+   - libselinux-python
+   - libsemanage-python
+
+- name: Install pip
+  command: bash -c "curl https://bootstrap.pypa.io/get-pip.py | python -"
+  sudo: yes
+
+- name: Install httplib2
+  pip: name=httplib2
+
+- name: Install Java
+  yum: name=java state=present
+
+- name: Install Unzip
+  yum: name=unzip state=present
+
+- name: test to see if selinux is running
+  command: getenforce
+  register: sestatus
+  changed_when: false
+
+- name: "Ensure firewalld is started"
+  service: name=firewalld state=started

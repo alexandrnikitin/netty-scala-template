@@ -1,0 +1,3 @@
+# This is the master Playbook and contains all other playbooks
+
+- include: microservice.yml
